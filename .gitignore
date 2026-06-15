@@ -1,0 +1,58 @@
+# Secrets
+secret.py
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Logs / experiment tracking
+wandb/
+logs/
+*.log
+
+# Large data, image corpora, model artifacts — NEVER commit (see HANDOFF.md for where they live)
+output/
+data/
+char_images3/
+char_*_uc/
+big_letters/
+damage_classifier_output/
+synthetic_data/
+synthetic_data_linked/
+__MACOSX/
+home/
+scratch/
+ipynb_plot_output/
+marimo/workbench_images_full/
+
+# Bulk binaries / archives / derived artifacts
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.pkl
+*.npy
+*.index
+*.pt
+*.pth
+*.ckpt
+
+# Regenerable manifests (the curated small ones in lists/ are force-added; big ones excluded)
+lists/faiss_image_paths_*.txt
+lists/char_images3_*.txt
+lists/anon_redo_and_restoration_chars.txt
+
+# Damage-classifier bulk image dirs (label CSVs are kept)
+damage_classifier_data/dldt_ground_truth/
+damage_classifier_data/filter_*/
+
+# Regenerable marimo figures
+marimo/*_latex_bigletter.png
+marimo/*.bkup*
+
+# OS cruft
+.DS_Store

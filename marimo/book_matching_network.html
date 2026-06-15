@@ -1,0 +1,353 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "tituslucretiuscarus1699", "label": "tituslucretiuscarus1699\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003etituslucretiuscarus1699\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "goldenremainsofhales1688", "label": "goldenremainsofhales1688\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003egoldenremainsofhales1688\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "Adiscourseofthedivine1683", "label": "Adiscourseofthedivine1683\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003eAdiscourseofthedivine1683\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "mithrateskingpontus1678", "label": "mithrateskingpontus1678\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003emithrateskingpontus1678\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "caesarborgia1680", "label": "caesarborgia1680\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003ecaesarborgia1680\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "fortysermons1685_partA", "label": "fortysermons1685_partA\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "criticalenquiriesinto1684", "label": "criticalenquiriesinto1684\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003ecriticalenquiriesinto1684\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "sermonpreachedspauls1678", "label": "sermonpreachedspauls1678\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003esermonpreachedspauls1678\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "plutarchmorals1694", "label": "plutarchmorals1694\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003eplutarchmorals1694\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "fortysermons1685_partPRE", "label": "fortysermons1685_partPRE\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003efortysermons1685_partPRE\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "voyagetosiam1688", "label": "voyagetosiam1688\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003evoyagetosiam1688\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "criticalhistorynewtestament1689", "label": "criticalhistorynewtestament1689\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003ecriticalhistorynewtestament1689\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "spinozatheologicalpolitical1689_partA", "label": "spinozatheologicalpolitical1689_partA\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "ThePlotrevivdorAme1680", "label": "ThePlotrevivdorAme1680\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003eThePlotrevivdorAme1680\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "fortysermons1685_partF", "label": "fortysermons1685_partF\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003efortysermons1685_partF\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "fortysermons1685_partC", "label": "fortysermons1685_partC\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003efortysermons1685_partC\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "anekdotaheterouriak1686", "label": "anekdotaheterouriak1686\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "annalsofkingjamescharles1681", "label": "annalsofkingjamescharles1681\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003eannalsofkingjamescharles1681\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "unknown", "label": "unknown\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003eunknown\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "afondhusband1685", "label": "afondhusband1685\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003eafondhusband1685\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#45B7D1", "border": "#45B7D1"}, "font": {"color": "black"}, "id": "votesofthehouseofcommons1690", "label": "votesofthehouseofcommons1690\n[rbentleytbraddylleveringham]", "shape": "dot", "size": 25, "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003ePrinter: rbentleytbraddylleveringham"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "voyageofitaly1685", "label": "voyageofitaly1685\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003evoyageofitaly1685\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "spinozatheologicalpolitical1689_partB", "label": "spinozatheologicalpolitical1689_partB\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003espinozatheologicalpolitical1689_partB\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "twotreatisesofgov1690_partA", "label": "twotreatisesofgov1690_partA\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003etwotreatisesofgov1690_partA\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "fortysermons1685_partB", "label": "fortysermons1685_partB\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003efortysermons1685_partB\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "twotreatisesofgov1690_partE", "label": "twotreatisesofgov1690_partE\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003etwotreatisesofgov1690_partE\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#FF6B6B", "border": "#FF6B6B"}, "font": {"color": "black"}, "id": "Tjpg", "label": "Tjpg\n[anon]", "shape": "dot", "size": 25, "title": "\u003cb\u003eTjpg\u003c/b\u003e\u003cbr\u003ePrinter: anon"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "examenpoeticum1693", "label": "examenpoeticum1693\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003eexamenpoeticum1693\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "truepreserver1682", "label": "truepreserver1682\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003etruepreserver1682\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "poormansfamilybook1697", "label": "poormansfamilybook1697\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003epoormansfamilybook1697\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "religionandreason1688", "label": "religionandreason1688\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003ereligionandreason1688\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#FFA07A", "border": "#FFA07A"}, "font": {"color": "black"}, "id": "summaryofmaterialheadsmaybeenlarged1696", "label": "summaryofmaterialheadsmaybeenlarged1696\n[tbraddyll]", "shape": "dot", "size": 25, "title": "\u003cb\u003esummaryofmaterialheadsmaybeenlarged1696\u003c/b\u003e\u003cbr\u003ePrinter: tbraddyll"}, {"borderWidth": 1, "color": {"background": "#4ECDC4", "border": "#4ECDC4"}, "font": {"color": "black"}, "id": "ogygia1685", "label": "ogygia1685\n[everingham]", "shape": "dot", "size": 25, "title": "\u003cb\u003eogygia1685\u003c/b\u003e\u003cbr\u003ePrinter: everingham"}]);
+                  edges = new vis.DataSet([{"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "tituslucretiuscarus1699", "label": "1", "title": "\u003cb\u003etituslucretiuscarus1699\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: W101", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "goldenremainsofhales1688", "label": "1", "title": "\u003cb\u003egoldenremainsofhales1688\u003c/b\u003e \u2194 \u003cb\u003evoyagetosiam1688\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: M88", "to": "voyagetosiam1688", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "goldenremainsofhales1688", "label": "1", "title": "\u003cb\u003egoldenremainsofhales1688\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: M88", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "Adiscourseofthedivine1683", "label": "2", "title": "\u003cb\u003eAdiscourseofthedivine1683\u003c/b\u003e \u2194 \u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 2\u003cbr\u003e\nConfidence: lo: 2, hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C95, P99", "to": "anekdotaheterouriak1686", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "Adiscourseofthedivine1683", "label": "2", "title": "\u003cb\u003eAdiscourseofthedivine1683\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 2\u003cbr\u003e\nConfidence: lo: 2, hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C95, P99", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#000000", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "Adiscourseofthedivine1683", "label": "1", "title": "\u003cb\u003eAdiscourseofthedivine1683\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partB\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2\u003cbr\u003e\nExamples: C95", "to": "fortysermons1685_partB", "width": 3}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "mithrateskingpontus1678", "label": "1", "title": "\u003cb\u003emithrateskingpontus1678\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 9 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: O83", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "mithrateskingpontus1678", "label": "1", "title": "\u003cb\u003emithrateskingpontus1678\u003c/b\u003e \u2194 \u003cb\u003epoormansfamilybook1697\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: O83", "to": "poormansfamilybook1697", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "caesarborgia1680", "label": "1", "title": "\u003cb\u003ecaesarborgia1680\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 7 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: K76", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "caesarborgia1680", "label": "1", "title": "\u003cb\u003ecaesarborgia1680\u003c/b\u003e \u2194 \u003cb\u003etruepreserver1682\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: K76", "to": "truepreserver1682", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "1", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003ecriticalenquiriesinto1684\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 9 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: E47", "to": "criticalenquiriesinto1684", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "5", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 5\u003cbr\u003e\nConfidence: lo: 7, hi: 7 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: F24, H29, N25, N30, T2", "to": "spinozatheologicalpolitical1689_partA", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "1", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partC\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2, hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: R3", "to": "fortysermons1685_partC", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "1", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: B98", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "5", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003etwotreatisesofgov1690_partA\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 5\u003cbr\u003e\nConfidence: lo: 6, hi: 4 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: F24, H29, N25, Q27, R31", "to": "twotreatisesofgov1690_partA", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "2", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partB\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 2\u003cbr\u003e\nConfidence: hi: 4 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: E49, M55", "to": "fortysermons1685_partB", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "1", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003ereligionandreason1688\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2, hi: 3 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: T2", "to": "religionandreason1688", "width": 4}, {"color": "#000000", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partA", "label": "1", "title": "\u003cb\u003efortysermons1685_partA\u003c/b\u003e \u2194 \u003cb\u003eogygia1685\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2\u003cbr\u003e\nExamples: C12", "to": "ogygia1685", "width": 3}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "sermonpreachedspauls1678", "label": "1", "title": "\u003cb\u003esermonpreachedspauls1678\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: R92", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "plutarchmorals1694", "label": "1", "title": "\u003cb\u003eplutarchmorals1694\u003c/b\u003e \u2194 \u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: T45", "to": "spinozatheologicalpolitical1689_partA", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partPRE", "label": "4", "title": "\u003cb\u003efortysermons1685_partPRE\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partC\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 4\u003cbr\u003e\nConfidence: hi: 9 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: B48, M52, O59, R62", "to": "fortysermons1685_partC", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partPRE", "label": "1", "title": "\u003cb\u003efortysermons1685_partPRE\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partB\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 4 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: O59", "to": "fortysermons1685_partB", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "voyagetosiam1688", "label": "1", "title": "\u003cb\u003evoyagetosiam1688\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: M88", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "criticalhistorynewtestament1689", "label": "1", "title": "\u003cb\u003ecriticalhistorynewtestament1689\u003c/b\u003e \u2194 \u003cb\u003eunknown\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: T87", "to": "unknown", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "criticalhistorynewtestament1689", "label": "1", "title": "\u003cb\u003ecriticalhistorynewtestament1689\u003c/b\u003e \u2194 \u003cb\u003eTjpg\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 3 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: T87", "to": "Tjpg", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "spinozatheologicalpolitical1689_partA", "label": "1", "title": "\u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e \u2194 \u003cb\u003eThePlotrevivdorAme1680\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: E46", "to": "ThePlotrevivdorAme1680", "width": 4}, {"color": "#000000", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "spinozatheologicalpolitical1689_partA", "label": "1", "title": "\u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partC\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2\u003cbr\u003e\nExamples: H33", "to": "fortysermons1685_partC", "width": 3}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "spinozatheologicalpolitical1689_partA", "label": "1", "title": "\u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e \u2194 \u003cb\u003eannalsofkingjamescharles1681\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 3 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: E46", "to": "annalsofkingjamescharles1681", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "spinozatheologicalpolitical1689_partA", "label": "4", "title": "\u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 4\u003cbr\u003e\nConfidence: hi: 10 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: B72, D70, P26, S73", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "spinozatheologicalpolitical1689_partA", "label": "7", "title": "\u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e \u2194 \u003cb\u003etwotreatisesofgov1690_partA\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 7\u003cbr\u003e\nConfidence: lo: 4, hi: 12 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: F24, G41, H29, M71, N25", "to": "twotreatisesofgov1690_partA", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "spinozatheologicalpolitical1689_partA", "label": "9", "title": "\u003cb\u003espinozatheologicalpolitical1689_partA\u003c/b\u003e \u2194 \u003cb\u003ereligionandreason1688\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 9\u003cbr\u003e\nConfidence: lo: 11, hi: 9 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: A35, B36, C39, G41, N34", "to": "religionandreason1688", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "ThePlotrevivdorAme1680", "label": "1", "title": "\u003cb\u003eThePlotrevivdorAme1680\u003c/b\u003e \u2194 \u003cb\u003eannalsofkingjamescharles1681\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 3 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: E46", "to": "annalsofkingjamescharles1681", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partF", "label": "4", "title": "\u003cb\u003efortysermons1685_partF\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partC\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 4\u003cbr\u003e\nConfidence: lo: 1, hi: 15 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C7, F3, G3, N4", "to": "fortysermons1685_partC", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partF", "label": "1", "title": "\u003cb\u003efortysermons1685_partF\u003c/b\u003e \u2194 \u003cb\u003eogygia1685\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2, hi: 1 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C7", "to": "ogygia1685", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partC", "label": "2", "title": "\u003cb\u003efortysermons1685_partC\u003c/b\u003e \u2194 \u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 2\u003cbr\u003e\nConfidence: hi: 7 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: H2, M18", "to": "anekdotaheterouriak1686", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partC", "label": "1", "title": "\u003cb\u003efortysermons1685_partC\u003c/b\u003e \u2194 \u003cb\u003espinozatheologicalpolitical1689_partB\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: M18", "to": "spinozatheologicalpolitical1689_partB", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partC", "label": "1", "title": "\u003cb\u003efortysermons1685_partC\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partB\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 25, lo: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: T22", "to": "fortysermons1685_partB", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partC", "label": "6", "title": "\u003cb\u003efortysermons1685_partC\u003c/b\u003e \u2194 \u003cb\u003eogygia1685\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 6\u003cbr\u003e\nConfidence: hi: 28, lo: 6 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C4, C7, H16, H17, H2", "to": "ogygia1685", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "anekdotaheterouriak1686", "label": "5", "title": "\u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 5\u003cbr\u003e\nConfidence: hi: 9, lo: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C90, C95, C97, P99, S91", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "anekdotaheterouriak1686", "label": "1", "title": "\u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e \u2194 \u003cb\u003espinozatheologicalpolitical1689_partB\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: M18", "to": "spinozatheologicalpolitical1689_partB", "width": 4}, {"color": "#000000", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "anekdotaheterouriak1686", "label": "1", "title": "\u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partB\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2\u003cbr\u003e\nExamples: C95", "to": "fortysermons1685_partB", "width": 3}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "anekdotaheterouriak1686", "label": "1", "title": "\u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e \u2194 \u003cb\u003eexamenpoeticum1693\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 4 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C90", "to": "examenpoeticum1693", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "anekdotaheterouriak1686", "label": "1", "title": "\u003cb\u003eanekdotaheterouriak1686\u003c/b\u003e \u2194 \u003cb\u003eogygia1685\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: H2", "to": "ogygia1685", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "annalsofkingjamescharles1681", "label": "3", "title": "\u003cb\u003eannalsofkingjamescharles1681\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 3\u003cbr\u003e\nConfidence: hi: 13 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C94, H96, W93", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": [5, 5], "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "unknown", "label": "1", "title": "\u003cb\u003eunknown\u003c/b\u003e \u2194 \u003cb\u003eTjpg\u003c/b\u003e\u003cbr\u003e\nType: chunk-only\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 3 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: T87", "to": "Tjpg", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "afondhusband1685", "label": "1", "title": "\u003cb\u003eafondhusband1685\u003c/b\u003e \u2194 \u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 5 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: W81", "to": "votesofthehouseofcommons1690", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "votesofthehouseofcommons1690", "label": "3", "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e \u2194 \u003cb\u003etwotreatisesofgov1690_partA\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 3\u003cbr\u003e\nConfidence: hi: 15 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C67, C74, P26", "to": "twotreatisesofgov1690_partA", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "votesofthehouseofcommons1690", "label": "2", "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e \u2194 \u003cb\u003efortysermons1685_partB\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 2\u003cbr\u003e\nConfidence: hi: 2, lo: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C95, T89", "to": "fortysermons1685_partB", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "votesofthehouseofcommons1690", "label": "2", "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e \u2194 \u003cb\u003eexamenpoeticum1693\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 2\u003cbr\u003e\nConfidence: hi: 6 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: C90, T89", "to": "examenpoeticum1693", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "votesofthehouseofcommons1690", "label": "1", "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e \u2194 \u003cb\u003etruepreserver1682\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 7 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: K76", "to": "truepreserver1682", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "votesofthehouseofcommons1690", "label": "2", "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e \u2194 \u003cb\u003epoormansfamilybook1697\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 2\u003cbr\u003e\nConfidence: lo: 3, hi: 9 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: O83, R82", "to": "poormansfamilybook1697", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "votesofthehouseofcommons1690", "label": "1", "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e \u2194 \u003cb\u003ereligionandreason1688\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 3 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: P26", "to": "religionandreason1688", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "votesofthehouseofcommons1690", "label": "1", "title": "\u003cb\u003evotesofthehouseofcommons1690\u003c/b\u003e \u2194 \u003cb\u003esummaryofmaterialheadsmaybeenlarged1696\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: hi: 2 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: D100", "to": "summaryofmaterialheadsmaybeenlarged1696", "width": 4}, {"color": "#000000", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "voyageofitaly1685", "label": "1", "title": "\u003cb\u003evoyageofitaly1685\u003c/b\u003e \u2194 \u003cb\u003etwotreatisesofgov1690_partE\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 2\u003cbr\u003e\nExamples: F42", "to": "twotreatisesofgov1690_partE", "width": 3}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "twotreatisesofgov1690_partA", "label": "4", "title": "\u003cb\u003etwotreatisesofgov1690_partA\u003c/b\u003e \u2194 \u003cb\u003ereligionandreason1688\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 4\u003cbr\u003e\nConfidence: hi: 9 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: F40, G41, N34, P26", "to": "religionandreason1688", "width": 4}, {"color": "#00AA00", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partB", "label": "3", "title": "\u003cb\u003efortysermons1685_partB\u003c/b\u003e \u2194 \u003cb\u003eexamenpoeticum1693\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 3\u003cbr\u003e\nConfidence: hi: 6 \u2b50 HIGH CONFIDENCE\u003cbr\u003e\nExamples: N20, N21, T89", "to": "examenpoeticum1693", "width": 4}, {"color": "#000000", "dashes": false, "font": {"bold": true, "color": "#000000", "face": "arial", "size": 24, "strokeColor": "#ffffff", "strokeWidth": 4}, "from": "fortysermons1685_partB", "label": "1", "title": "\u003cb\u003efortysermons1685_partB\u003c/b\u003e \u2194 \u003cb\u003eogygia1685\u003c/b\u003e\u003cbr\u003e\nType: non-chunk\u003cbr\u003e\nShared letters: 1\u003cbr\u003e\nConfidence: lo: 4\u003cbr\u003e\nExamples: T22", "to": "ogygia1685", "width": 3}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "stabilization": {"enabled": true, "iterations": 500, "updateInterval": 25}, "forceAtlas2Based": {"gravitationalConstant": -200, "centralGravity": 0.015, "springLength": 300, "springConstant": 0.08, "damping": 0.4, "avoidOverlap": 1}, "solver": "forceAtlas2Based"}, "interaction": {"dragNodes": true, "dragView": true, "zoomView": true, "hover": true, "tooltipDelay": 100}, "nodes": {"shape": "box", "margin": 10, "widthConstraint": {"maximum": 200}, "fixed": {"x": false, "y": false}}, "manipulation": {"enabled": false}, "edges": {"smooth": {"enabled": true, "type": "continuous"}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<style>
+  .control-button {
+    position: fixed;
+    right: 20px;
+    z-index: 1000;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: background-color 0.3s;
+  }
+  #physics-toggle {
+    top: 20px;
+    background-color: #4CAF50;
+  }
+  #physics-toggle:hover {
+    background-color: #45a049;
+  }
+  #physics-toggle.off {
+    background-color: #f44336;
+  }
+  #physics-toggle.off:hover {
+    background-color: #da190b;
+  }
+  #save-layout {
+    top: 70px;
+    background-color: #2196F3;
+  }
+  #save-layout:hover {
+    background-color: #0b7dda;
+  }
+  #confidence-toggle {
+    top: 120px;
+    background-color: #FF9800;
+  }
+  #confidence-toggle:hover {
+    background-color: #F57C00;
+  }
+  #confidence-toggle.hiding {
+    background-color: #9C27B0;
+  }
+  #confidence-toggle.hiding:hover {
+    background-color: #7B1FA2;
+  }
+  #info-box {
+    position: fixed;
+    top: 170px;
+    right: 20px;
+    z-index: 1000;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 2px solid #333;
+    border-radius: 8px;
+    font-size: 14px;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+</style>
+<button id="physics-toggle" class="control-button" onclick="togglePhysics()">Physics: ON (Click to freeze nodes)</button>
+<button id="save-layout" class="control-button" onclick="saveLayout()">💾 Save Layout</button>
+<button id="confidence-toggle" class="control-button" onclick="toggleLowConfidence()">Show Low Confidence</button>
+<div id="info-box">
+  <strong>Controls:</strong><br>
+  • Drag nodes to reposition<br>
+  • Scroll to zoom<br>
+  • Drag background to pan<br>
+  • Toggle physics OFF to freeze nodes<br>
+  • Toggle low confidence matches<br>
+  • Save layout to preserve positions<br>
+  <br>
+  <strong>Legend:</strong><br>
+  • Node colors = printer names<br>
+  • Node labels show: book name [printer]<br>
+  • Edge numbers = shared letter count<br>
+  • Green edges = HIGH confidence<br>
+  • Black edges = regular confidence<br>
+  • Solid = non-chunk matches<br>
+  • Dashed = chunk-only matches<br>
+</div>
+<script type="text/javascript">
+  var physicsEnabled = true;
+  var savedLayout = {"mithrateskingpontus1678": {"x": -608, "y": -596}, "summaryofmaterialheadsmaybeenlarged1696": {"x": -816, "y": -304}, "spinozatheologicalpolitical1689_partB": {"x": 851, "y": -22}, "examenpoeticum1693": {"x": 558, "y": -110}, "fortysermons1685_partPRE": {"x": 707, "y": -246}, "ogygia1685": {"x": 1031, "y": 91}, "Tjpg": {"x": 650, "y": 516}, "anekdotaheterouriak1686": {"x": 422, "y": 141}, "caesarborgia1680": {"x": -743, "y": -492}, "annalsofkingjamescharles1681": {"x": -434, "y": -31}, "fortysermons1685_partC": {"x": 995, "y": -151}, "tituslucretiuscarus1699": {"x": -750, "y": -226}, "fortysermons1685_partB": {"x": 576, "y": -506}, "plutarchmorals1694": {"x": -154, "y": 353}, "twotreatisesofgov1690_partE": {"x": 1181, "y": 271}, "fortysermons1685_partA": {"x": 108, "y": 196}, "criticalenquiriesinto1684": {"x": 26, "y": 357}, "voyageofitaly1685": {"x": 1141, "y": 472}, "criticalhistorynewtestament1689": {"x": 976, "y": 508}, "goldenremainsofhales1688": {"x": -753, "y": -129}, "unknown": {"x": 789, "y": 413}, "fortysermons1685_partF": {"x": 1176, "y": -167}, "sermonpreachedspauls1678": {"x": -310, "y": -592}, "Adiscourseofthedivine1683": {"x": -160, "y": -552}, "truepreserver1682": {"x": -782, "y": -388}, "afondhusband1685": {"x": -705, "y": -592}, "ThePlotrevivdorAme1680": {"x": -581, "y": 331}, "votesofthehouseofcommons1690": {"x": -365, "y": -290}, "voyagetosiam1688": {"x": -710, "y": 5}, "religionandreason1688": {"x": -617, "y": 72}, "twotreatisesofgov1690_partA": {"x": -331, "y": 285}, "spinozatheologicalpolitical1689_partA": {"x": -185, "y": 74}, "poormansfamilybook1697": {"x": -418, "y": -636}};
+  var showLowConfidence = true;
+  var edgeData = [{"from": "tituslucretiuscarus1699", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "goldenremainsofhales1688", "to": "voyagetosiam1688", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "goldenremainsofhales1688", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "Adiscourseofthedivine1683", "to": "anekdotaheterouriak1686", "type": "non-chunk", "count": 2, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"lo": 2, "hi": 2}, "has_lo_confidence": true}, {"from": "Adiscourseofthedivine1683", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 2, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"lo": 2, "hi": 2}, "has_lo_confidence": true}, {"from": "Adiscourseofthedivine1683", "to": "fortysermons1685_partB", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": false, "confidence_dist": {"lo": 2}, "has_lo_confidence": true}, {"from": "mithrateskingpontus1678", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 9}, "has_lo_confidence": false}, {"from": "mithrateskingpontus1678", "to": "poormansfamilybook1697", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "caesarborgia1680", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 7}, "has_lo_confidence": false}, {"from": "caesarborgia1680", "to": "truepreserver1682", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "fortysermons1685_partA", "to": "criticalenquiriesinto1684", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 9}, "has_lo_confidence": false}, {"from": "fortysermons1685_partA", "to": "spinozatheologicalpolitical1689_partA", "type": "non-chunk", "count": 5, "count_not_lo": 2, "has_hi_confidence": true, "confidence_dist": {"lo": 7, "hi": 7}, "has_lo_confidence": true}, {"from": "fortysermons1685_partA", "to": "fortysermons1685_partC", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": true, "confidence_dist": {"lo": 2, "hi": 2}, "has_lo_confidence": true}, {"from": "fortysermons1685_partA", "to": "fortysermons1685_partC", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"lo": 2, "hi": 2}, "has_lo_confidence": true}, {"from": "fortysermons1685_partA", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "fortysermons1685_partA", "to": "twotreatisesofgov1690_partA", "type": "non-chunk", "count": 5, "count_not_lo": 2, "has_hi_confidence": true, "confidence_dist": {"lo": 6, "hi": 4}, "has_lo_confidence": true}, {"from": "fortysermons1685_partA", "to": "fortysermons1685_partB", "type": "chunk-only", "count": 2, "count_not_lo": 2, "has_hi_confidence": true, "confidence_dist": {"hi": 4}, "has_lo_confidence": false}, {"from": "fortysermons1685_partA", "to": "religionandreason1688", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": true, "confidence_dist": {"lo": 2, "hi": 3}, "has_lo_confidence": true}, {"from": "fortysermons1685_partA", "to": "ogygia1685", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": false, "confidence_dist": {"lo": 2}, "has_lo_confidence": true}, {"from": "sermonpreachedspauls1678", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "plutarchmorals1694", "to": "spinozatheologicalpolitical1689_partA", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "fortysermons1685_partPRE", "to": "fortysermons1685_partC", "type": "chunk-only", "count": 4, "count_not_lo": 4, "has_hi_confidence": true, "confidence_dist": {"hi": 9}, "has_lo_confidence": false}, {"from": "fortysermons1685_partPRE", "to": "fortysermons1685_partB", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 4}, "has_lo_confidence": false}, {"from": "voyagetosiam1688", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "criticalhistorynewtestament1689", "to": "unknown", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "criticalhistorynewtestament1689", "to": "Tjpg", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 3}, "has_lo_confidence": false}, {"from": "spinozatheologicalpolitical1689_partA", "to": "ThePlotrevivdorAme1680", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "spinozatheologicalpolitical1689_partA", "to": "fortysermons1685_partC", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": false, "confidence_dist": {"lo": 2}, "has_lo_confidence": true}, {"from": "spinozatheologicalpolitical1689_partA", "to": "annalsofkingjamescharles1681", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 3}, "has_lo_confidence": false}, {"from": "spinozatheologicalpolitical1689_partA", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 4, "count_not_lo": 4, "has_hi_confidence": true, "confidence_dist": {"hi": 10}, "has_lo_confidence": false}, {"from": "spinozatheologicalpolitical1689_partA", "to": "twotreatisesofgov1690_partA", "type": "non-chunk", "count": 7, "count_not_lo": 5, "has_hi_confidence": true, "confidence_dist": {"lo": 4, "hi": 12}, "has_lo_confidence": true}, {"from": "spinozatheologicalpolitical1689_partA", "to": "religionandreason1688", "type": "non-chunk", "count": 9, "count_not_lo": 4, "has_hi_confidence": true, "confidence_dist": {"lo": 11, "hi": 9}, "has_lo_confidence": true}, {"from": "ThePlotrevivdorAme1680", "to": "annalsofkingjamescharles1681", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 3}, "has_lo_confidence": false}, {"from": "fortysermons1685_partF", "to": "fortysermons1685_partC", "type": "non-chunk", "count": 4, "count_not_lo": 3, "has_hi_confidence": true, "confidence_dist": {"lo": 1, "hi": 15}, "has_lo_confidence": true}, {"from": "fortysermons1685_partF", "to": "ogygia1685", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": true, "confidence_dist": {"lo": 2, "hi": 1}, "has_lo_confidence": true}, {"from": "fortysermons1685_partC", "to": "anekdotaheterouriak1686", "type": "non-chunk", "count": 2, "count_not_lo": 2, "has_hi_confidence": true, "confidence_dist": {"hi": 7}, "has_lo_confidence": false}, {"from": "fortysermons1685_partC", "to": "spinozatheologicalpolitical1689_partB", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "fortysermons1685_partC", "to": "fortysermons1685_partB", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": true, "confidence_dist": {"hi": 25, "lo": 2}, "has_lo_confidence": true}, {"from": "fortysermons1685_partC", "to": "fortysermons1685_partB", "type": "chunk-only", "count": 5, "count_not_lo": 5, "has_hi_confidence": true, "confidence_dist": {"hi": 25, "lo": 2}, "has_lo_confidence": true}, {"from": "fortysermons1685_partC", "to": "ogygia1685", "type": "non-chunk", "count": 6, "count_not_lo": 3, "has_hi_confidence": true, "confidence_dist": {"hi": 28, "lo": 6}, "has_lo_confidence": true}, {"from": "anekdotaheterouriak1686", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 5, "count_not_lo": 4, "has_hi_confidence": true, "confidence_dist": {"hi": 9, "lo": 2}, "has_lo_confidence": true}, {"from": "anekdotaheterouriak1686", "to": "spinozatheologicalpolitical1689_partB", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "anekdotaheterouriak1686", "to": "fortysermons1685_partB", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": false, "confidence_dist": {"lo": 2}, "has_lo_confidence": true}, {"from": "anekdotaheterouriak1686", "to": "examenpoeticum1693", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 4}, "has_lo_confidence": false}, {"from": "anekdotaheterouriak1686", "to": "ogygia1685", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "annalsofkingjamescharles1681", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 3, "count_not_lo": 3, "has_hi_confidence": true, "confidence_dist": {"hi": 13}, "has_lo_confidence": false}, {"from": "unknown", "to": "Tjpg", "type": "chunk-only", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 3}, "has_lo_confidence": false}, {"from": "afondhusband1685", "to": "votesofthehouseofcommons1690", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 5}, "has_lo_confidence": false}, {"from": "votesofthehouseofcommons1690", "to": "twotreatisesofgov1690_partA", "type": "non-chunk", "count": 3, "count_not_lo": 3, "has_hi_confidence": true, "confidence_dist": {"hi": 15}, "has_lo_confidence": false}, {"from": "votesofthehouseofcommons1690", "to": "fortysermons1685_partB", "type": "non-chunk", "count": 2, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2, "lo": 2}, "has_lo_confidence": true}, {"from": "votesofthehouseofcommons1690", "to": "examenpoeticum1693", "type": "non-chunk", "count": 2, "count_not_lo": 2, "has_hi_confidence": true, "confidence_dist": {"hi": 6}, "has_lo_confidence": false}, {"from": "votesofthehouseofcommons1690", "to": "truepreserver1682", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 7}, "has_lo_confidence": false}, {"from": "votesofthehouseofcommons1690", "to": "poormansfamilybook1697", "type": "non-chunk", "count": 2, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"lo": 3, "hi": 9}, "has_lo_confidence": true}, {"from": "votesofthehouseofcommons1690", "to": "religionandreason1688", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 3}, "has_lo_confidence": false}, {"from": "votesofthehouseofcommons1690", "to": "summaryofmaterialheadsmaybeenlarged1696", "type": "non-chunk", "count": 1, "count_not_lo": 1, "has_hi_confidence": true, "confidence_dist": {"hi": 2}, "has_lo_confidence": false}, {"from": "voyageofitaly1685", "to": "twotreatisesofgov1690_partE", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": false, "confidence_dist": {"lo": 2}, "has_lo_confidence": true}, {"from": "twotreatisesofgov1690_partA", "to": "religionandreason1688", "type": "non-chunk", "count": 4, "count_not_lo": 4, "has_hi_confidence": true, "confidence_dist": {"hi": 9}, "has_lo_confidence": false}, {"from": "fortysermons1685_partB", "to": "examenpoeticum1693", "type": "non-chunk", "count": 3, "count_not_lo": 3, "has_hi_confidence": true, "confidence_dist": {"hi": 6}, "has_lo_confidence": false}, {"from": "fortysermons1685_partB", "to": "ogygia1685", "type": "non-chunk", "count": 1, "count_not_lo": 0, "has_hi_confidence": false, "confidence_dist": {"lo": 4}, "has_lo_confidence": true}];
+  var allEdges = null;
+
+  // Store all edges after network is created
+  network.once("stabilizationIterationsDone", function() {
+    // Save all edges for filtering
+    allEdges = network.body.data.edges.get();
+    console.log("Total edges stored:", allEdges.length);
+
+    // Apply saved layout if available
+    if (savedLayout) {
+      console.log("Loading saved layout for", Object.keys(savedLayout).length, "nodes");
+
+      // Disable physics first to prevent nodes from moving
+      network.setOptions({ physics: { enabled: false } });
+      physicsEnabled = false;
+
+      // Update button state
+      var button = document.getElementById('physics-toggle');
+      button.textContent = 'Physics: OFF (Nodes frozen)';
+      button.classList.add('off');
+
+      // Apply saved positions
+      Object.keys(savedLayout).forEach(function(nodeId) {
+        var pos = savedLayout[nodeId];
+        network.moveNode(nodeId, pos.x, pos.y);
+      });
+
+      console.log("Saved layout applied and physics disabled");
+    }
+  });
+
+  function togglePhysics() {
+    physicsEnabled = !physicsEnabled;
+    network.setOptions({ physics: { enabled: physicsEnabled } });
+
+    var button = document.getElementById('physics-toggle');
+    if (physicsEnabled) {
+      button.textContent = 'Physics: ON (Click to freeze nodes)';
+      button.classList.remove('off');
+    } else {
+      button.textContent = 'Physics: OFF (Nodes frozen)';
+      button.classList.add('off');
+    }
+  }
+
+  function toggleLowConfidence() {
+    showLowConfidence = !showLowConfidence;
+    var button = document.getElementById('confidence-toggle');
+
+    if (!allEdges) {
+      console.warn("Edges not yet loaded, waiting...");
+      setTimeout(toggleLowConfidence, 500);
+      return;
+    }
+
+    if (showLowConfidence) {
+      // Show all edges with original counts
+      button.textContent = 'Show Low Confidence';
+      button.classList.remove('hiding');
+      network.body.data.edges.update(allEdges);
+      console.log("Showing all edges:", allEdges.length);
+    } else {
+      // Hide low confidence edges and adjust counts
+      button.textContent = 'Hide Low Confidence';
+      button.classList.add('hiding');
+
+      // Filter out edges that are only low confidence
+      // Also update labels to show count without low confidence matches
+      var filteredEdges = allEdges.filter(function(edge) {
+        // Find corresponding edge in edgeData
+        var edgeInfo = edgeData.find(function(e) {
+          return (e.from === edge.from && e.to === edge.to) ||
+                 (e.from === edge.to && e.to === edge.from);
+        });
+
+        if (!edgeInfo) return true; // Keep if not found (shouldn't happen)
+
+        // Hide edge if count_not_lo is 0 (meaning all matches are low confidence)
+        // Otherwise keep it and update the label
+        return edgeInfo.count_not_lo > 0;
+      }).map(function(edge) {
+        // Update label to show count without low confidence matches
+        var edgeInfo = edgeData.find(function(e) {
+          return (e.from === edge.from && e.to === edge.to) ||
+                 (e.from === edge.to && e.to === edge.from);
+        });
+
+        if (edgeInfo && edgeInfo.count_not_lo < edgeInfo.count) {
+          // Create a copy and update the label to show count without low confidence
+          var updatedEdge = Object.assign({}, edge);
+          updatedEdge.label = String(edgeInfo.count_not_lo);
+          return updatedEdge;
+        }
+        return edge;
+      });
+
+      // Update edges
+      var edgeIds = allEdges.map(e => e.id);
+      network.body.data.edges.remove(edgeIds);
+      network.body.data.edges.update(filteredEdges);
+
+      console.log("Filtered edges:", filteredEdges.length, "of", allEdges.length);
+    }
+  }
+
+  function saveLayout() {
+    var positions = network.getPositions();
+    var layoutData = JSON.stringify(positions, null, 2);
+
+    // Create a download link
+    var blob = new Blob([layoutData], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'book_matching_network_layout.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    alert('Layout saved! The file will be downloaded.\n\nPlace it in the same directory as graph.py to use it next time.');
+  }
+
+  // Auto-disable physics after stabilization
+  network.on("stabilizationIterationsDone", function () {
+    console.log("Network stabilized");
+  });
+
+  // Fix node position when dragged
+  network.on("dragEnd", function (params) {
+    if (params.nodes.length > 0 && !physicsEnabled) {
+      params.nodes.forEach(function(nodeId) {
+        network.moveNode(nodeId, params.pointer.canvas.x, params.pointer.canvas.y);
+      });
+    }
+  });
+</script>
+</body>
+</html>
