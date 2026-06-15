@@ -37,7 +37,8 @@ see `HANDOFF.md` §4.4.
 | `char_images3/` raw corpus | 81 GB | **archive cold** — re-fetchable from Bridges-2 |
 | Matcher `epoch*.pt` snapshots | ~131 GB | **drop** — redundant given `best.pt` |
 | FAISS indices (`.index`/`.npy`) | ~67 GB | **drop/regen** (keep 2–3 you'll query) |
-| `data/` raw+synthetic image pools (ocean/, redo_*, synthetic, tars) | ~70 GB | **archive/drop** — regenerable |
+| `data/synthetic_data/` generated training pairs | ~20 GB | **KEEP** (PI wants to reuse; do not regenerate) |
+| `data/` other raw pools (ocean/, redo_*, tars) | ~50 GB | **archive/drop** — regenerable |
 | `damage_classifier_output/` preds + abandoned ablations | ~29 GB | **drop** |
 | `wandb/` | 5 GB | **compact** to per-run config/summary (~100 MB), then archive |
 | `graph.log` (METAFONT error spew) + `graph.2602gf` | 540 MB | **drop** — accidental junk |
