@@ -102,6 +102,18 @@ All paths below are under the original `/graft2/code/nvog/git/matching/` unless 
    loads; rewrite for your scheduler.
 6. **`marimo/` is misnamed** — these are plain `python viz_*.py` scripts (polars/altair/
    networkx/pyvis), **not** marimo notebooks. Run them directly.
+7. **`--evaluate_ckpt` throws a benign `UnboundLocalError` at the very end** — after all
+   metrics are computed and printed, `train_model()` runs
+   `print(f'Finished training ... {best_metric_name} ...')`, but `best_metric_name` is only
+   assigned when a new best checkpoint is saved during training, which never happens in
+   eval-only mode. The recall numbers are fully valid; the traceback is cosmetic. Fix:
+   guard that print on `if not args.evaluate_ckpt:` (or initialize `best_metric_name`).
+8. **Several scripts write to the *current directory*** (e.g. `datasets.py` saves
+   `negative-hist-{split}.png` via `savefig` with a relative path). If you run from a
+   directory you can't write to (like the original `nvog`-owned tree), the run dies with a
+   `PermissionError`. **Run from a writable working dir** (e.g. a clone of this repo with the
+   data dirs symlinked in), and point `--output_dir` / `--log_dir` / `--evaluate_ckpt_dest`
+   at paths you own. See `RESULTS.md` for a working eval invocation that does exactly this.
 
 ## 5. Best places to start reading
 
